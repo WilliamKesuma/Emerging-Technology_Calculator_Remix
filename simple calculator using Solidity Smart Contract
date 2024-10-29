@@ -1,0 +1,105 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract Calculator {
+    // State variable to store the result of the last operation
+    uint256 public result;
+
+    // Constructor to initialize result
+    constructor() {
+        result = 0;
+    }
+
+    // Basic Functions
+
+    // Add to the current result
+    function add(uint256 a) public returns (uint256) {
+        result += a;
+        return result;
+    }
+
+    // Subtract from the current result
+    function subtract(uint256 a) public returns (uint256) {
+        result -= a;
+        return result;
+    }
+
+    // Multiply the current result
+    function multiply(uint256 a) public returns (uint256) {
+        result *= a;
+        return result;
+    }
+
+    // Divide the current result
+    function divide(uint256 a) public returns (uint256) {
+        require(a > 0, "Division by zero is not allowed");
+        result /= a;
+        return result;
+    }
+
+    // Complex Functions
+
+    // Power (result ^ a)
+    function power(uint256 a) public returns (uint256) {
+        result = _power(result, a);
+        return result;
+    }
+
+    // Root (nth root of result)
+    function root(uint256 a) public view returns (uint256) {
+        require(a > 0, "Root power must be greater than zero");
+        return _root(result, a);
+    }
+
+    // Modulo (result % a)
+    function modulo(uint256 a) public returns (uint256) {
+        result %= a;
+        return result;
+    }
+
+    // Factorial (result!)
+    function factorial() public returns (uint256) {
+        result = _factorial(result);
+        return result;
+    }
+
+    // Function to clear the result
+    function clear() public {
+        result = 0;
+    }
+
+    // Internal helper functions
+
+    // Power helper function
+    function _power(uint256 base, uint256 exponent) internal pure returns (uint256) {
+        uint256 tempResult = 1;
+        for (uint256 i = 0; i < exponent; i++) {
+            tempResult *= base;
+        }
+        return tempResult;
+    }
+
+    // Root helper function
+    function _root(uint256 base, uint256 nth) internal pure returns (uint256) {
+        uint256 z = base;
+        uint256 x = base / nth + 1;
+        while (x < z) {
+            z = x;
+            x = (base / x + x) / 2;
+        }
+        return z;
+    }
+
+    // Factorial helper function
+    function _factorial(uint256 num) internal pure returns (uint256) {
+        if (num == 0 || num == 1) {
+            return 1;
+        } else {
+            uint256 tempResult = 1;
+            for (uint256 i = 2; i <= num; i++) {
+                tempResult *= i;
+            }
+            return tempResult;
+        }
+    }
+}
